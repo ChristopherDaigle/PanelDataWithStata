@@ -121,6 +121,11 @@ estimates table POLS_robust RE, se
 ///// Monte Carlo Simulation of R.E. model for Economic Panel Data
 cls
 clear all
+set seed 333
+
+
+program simulate_re, rclass
+
 // Specify the number of N (individuals) in panel data set - make a population of 500 members
 set obs 500
 
@@ -154,3 +159,4 @@ estimates store RE
 estimates table POLS RE, se p
 
 // Standard effect on RE is smaller than POLS and that indicates that the RE estimator is more efficient than POLS estimator
+end
