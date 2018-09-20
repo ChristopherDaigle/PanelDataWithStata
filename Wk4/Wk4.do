@@ -123,7 +123,7 @@ cls
 clear all
 set seed 333
 
-
+/*
 program simulate_re, rclass
 
 // Specify the number of N (individuals) in panel data set - make a population of 500 members
@@ -160,3 +160,5 @@ estimates table POLS RE, se p
 
 // Standard effect on RE is smaller than POLS and that indicates that the RE estimator is more efficient than POLS estimator
 end
+*/
+
