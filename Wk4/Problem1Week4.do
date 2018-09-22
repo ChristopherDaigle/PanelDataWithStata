@@ -75,3 +75,5 @@ estimates store FE
 
 /* QUESTION 10 */
 estimates table POLS RE FE
+* The estimated coef for 'exper' is smaller in RE than in FE.
+* reExper = 0.13 < 0.15 = feExper
