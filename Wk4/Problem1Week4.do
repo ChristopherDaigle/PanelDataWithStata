@@ -55,7 +55,7 @@ local Covariates exper exper2 manuf black educ
 
 reg lWage `Covariates' i.year, vce(cluster id)
 estimates store POLS
-* P-value for manuf is 0.048
+* P-value for manuf is 0.056
 
 /* QUESTION 7 */
 predict hatlw
@@ -95,5 +95,22 @@ estimates table FE FD
 * The coef on manuf in FD is 0.0635, larger than the coef in FE of 0.0587.
 
 /* QUESTION 14 */
-
 hausman RE FE, sigmamore
+* IDK how this one is meant to work
+
+/* QUESTION 15 */
+* This question doesn't work
+local explain = "exper exper2 manuf iyear1 iyear2 iyear3 iyear4 iyear5 iyear6 iyear7"
+
+foreach var of varlist `explain' {
+
+bysort id: egen m_`var' = mean(`var') if samp_re
+
+}
+
+xtreglWage `Covariates' i.year, re vce(cluster id)
+estimates store Mundlak
+
+/* QUESTION 16 */
+* NOT WORKING YET
+estimates table RE FE Mundlak
