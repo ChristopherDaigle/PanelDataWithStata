@@ -70,3 +70,5 @@ gen reReg = e(sample)
 
 /* QUESTION 9 */
 xtreg exper exper2 manuf i.year, fe
+estimates store FE
+* The estimated coefficient for exper2 is 0.0934
