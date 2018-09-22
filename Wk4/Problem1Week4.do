@@ -51,4 +51,7 @@ xtsum
 * Answers: 6, 2
 
 /* QUESTION 6 */
+local Covariates exper exper2 manuf black educ
+
+reg lwage `Covariates'
 
