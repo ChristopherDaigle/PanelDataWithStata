@@ -70,8 +70,11 @@ gen reReg = e(sample)
 
 /* QUESTION 9 */
 xtreg lWage exper exper2 manuf i.year, fe vce(robust)
+estimates store FER
+xtreg lWage exper exper2 manuf i.year, fe
+// In question 14 FER cannot be used in the Hausman so I'm making another FE
 estimates store FE
-* The estimated coefficient for exper2 is  -0.0064
+* The estimated coefficient for exper2 is  -0.0064 FER
 
 /* QUESTION 10 */
 estimates table POLS RE FE
@@ -90,3 +93,7 @@ estimates store FD
 /* QUESTION 13 */
 estimates table FE FD
 * The coef on manuf in FD is 0.0635, larger than the coef in FE of 0.0587.
+
+/* QUESTION 14 */
+
+hausman RE FE, sigmamore
