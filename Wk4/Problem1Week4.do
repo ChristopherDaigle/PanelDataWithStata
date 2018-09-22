@@ -53,5 +53,20 @@ xtsum
 /* QUESTION 6 */
 local Covariates exper exper2 manuf black educ
 
-reg lwage `Covariates'
+reg lWage `Covariates' i.year, vce(cluster id)
+estimates store POLS
+* P-value for manuf is 0.048
 
+/* QUESTION 7 */
+predict hatlw
+
+twoway scatter hatlw exper
+
+/* QUESTION 8 */
+xtreg lWage `Covariates' i.year, re
+estimates store RE
+gen reReg = e(sample)
+* The standard error on exper is 0.0144
+
+/* QUESTION 9 */
+xtreg exper exper2 manuf i.year, fe
