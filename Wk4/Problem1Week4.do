@@ -69,6 +69,9 @@ gen reReg = e(sample)
 * The standard error on exper is 0.0144
 
 /* QUESTION 9 */
-xtreg exper exper2 manuf i.year, fe
+xtreg lWage exper exper2 manuf i.year, fe vce(robust)
 estimates store FE
-* The estimated coefficient for exper2 is 0.0934
+* The estimated coefficient for exper2 is  -0.0064
+
+/* QUESTION 10 */
+estimates table POLS RE FE
