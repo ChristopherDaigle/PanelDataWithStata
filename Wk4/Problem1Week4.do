@@ -77,3 +77,9 @@ estimates store FE
 estimates table POLS RE FE
 * The estimated coef for 'exper' is smaller in RE than in FE.
 * reExper = 0.13 < 0.15 = feExper
+
+/* QUESTION 11 */
+tabulate year, gen(iyear)
+* The cumulative percentage of the observation in year 85 is 71.43.
+
+/* QUESTION 12 */
