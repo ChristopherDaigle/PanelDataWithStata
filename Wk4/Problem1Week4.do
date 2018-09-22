@@ -86,3 +86,7 @@ tabulate year, gen(iyear)
 reg lWage exper exper2 manuf iyear*, vce(cluster id)
 estimates store FD
 * The standard error for the coefficient of exper is 0.1633.
+
+/* QUESTION 13 */
+estimates table FE FD
+* The coef on manuf in FD is 0.0635, larger than the coef in FE of 0.0587.
