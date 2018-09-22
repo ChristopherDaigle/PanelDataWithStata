@@ -83,3 +83,6 @@ tabulate year, gen(iyear)
 * The cumulative percentage of the observation in year 85 is 71.43.
 
 /* QUESTION 12 */
+reg lWage exper exper2 manuf iyear*, vce(cluster id)
+estimates store FD
+* The standard error for the coefficient of exper is 0.1633.
