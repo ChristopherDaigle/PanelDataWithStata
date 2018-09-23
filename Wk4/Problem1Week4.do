@@ -69,7 +69,7 @@ gen reReg = e(sample)
 * The standard error on exper is 0.0144
 
 /* QUESTION 9 */
-xtreg lWage exper exper2 manuf i.year, fe vce(robust)
+xtreg lWage exper exper2 manuf i.year, fe
 estimates store FER
 xtreg lWage exper exper2 manuf i.year, fe
 // In question 14 FER cannot be used in the Hausman so I'm making another FE
@@ -86,31 +86,29 @@ tabulate year, gen(iyear)
 * The cumulative percentage of the observation in year 85 is 71.43.
 
 /* QUESTION 12 */
-reg lWage exper exper2 manuf iyear*, vce(cluster id)
+reg lWage D.(exper exper2 manuf iyear*), vce(cluster id)
 estimates store FD
-* The standard error for the coefficient of exper is 0.1633.
+* The standard error for the coefficient of exper is 0.0179.
 
 /* QUESTION 13 */
 estimates table FE FD
 * The coef on manuf in FD is 0.0635, larger than the coef in FE of 0.0587.
 
 /* QUESTION 14 */
-hausman RE FE, sigmamore
-* IDK how this one is meant to work
+hausman FE RE, sigmamore
+* 
 
 /* QUESTION 15 */
-* This question doesn't work
 local explain = "exper exper2 manuf iyear1 iyear2 iyear3 iyear4 iyear5 iyear6 iyear7"
 
 foreach var of varlist `explain' {
 
-bysort id: egen m_`var' = mean(`var') if samp_re
+bysort id: egen m_`var' = mean(`var') if reReg
 
 }
 
-xtreglWage `Covariates' i.year, re vce(cluster id)
+xtreg lWage `Covariates' i.year, re vce(cluster id)
 estimates store Mundlak
 
 /* QUESTION 16 */
-* NOT WORKING YET
 estimates table RE FE Mundlak
