@@ -57,6 +57,8 @@ reg lWage `Covariates' i.year, vce(cluster id)
 estimates store POLS
 * P-value for manuf is 0.056
 
+* Answer: 0.056
+
 /* QUESTION 7 */
 predict hatlw
 
@@ -68,35 +70,48 @@ estimates store RE
 gen reReg = e(sample)
 * The standard error on exper is 0.0144
 
+* Answer: 0.0144
+
 /* QUESTION 9 */
 xtreg lWage exper exper2 manuf i.year, fe
-estimates store FER
-xtreg lWage exper exper2 manuf i.year, fe
-// In question 14 FER cannot be used in the Hausman so I'm making another FE
 estimates store FE
-* The estimated coefficient for exper2 is  -0.0064 FER
+* The estimated coefficient for exper2 is -0.0064 FE
+
+* Answer: -0.0064
 
 /* QUESTION 10 */
 estimates table POLS RE FE
 * The estimated coef for 'exper' is smaller in RE than in FE.
 * reExper = 0.13 < 0.15 = feExper
 
+* Answer: True
+
 /* QUESTION 11 */
 tabulate year, gen(iyear)
 * The cumulative percentage of the observation in year 85 is 71.43.
 
+* Answer: 71.43
+
 /* QUESTION 12 */
-reg lWage D.(exper exper2 manuf iyear*), vce(cluster id)
+reg D.(lWage exper exper2 manuf iyear*), vce(cluster id) nocons
 estimates store FD
-* The standard error for the coefficient of exper is 0.0179.
+* The standard error for the coefficient of exper is 0.0190.
+
+* Answer: 0.0190
 
 /* QUESTION 13 */
 estimates table FE FD
-* The coef on manuf in FD is 0.0635, larger than the coef in FE of 0.0587.
+* The coef on manuf in FD is 0.0522, smaller than the coef in FE of 0.0587.
+
+* Answer: smaller
 
 /* QUESTION 14 */
 hausman FE RE, sigmamore
-* 
+
+* Fail to reject the null - the null holds that there is not a systemic difference
+* based on the idiosyncratic error (alphi_{i}) being endogenous, P-value is 0.7426
+
+* Answer: isnt, exogenous, 0.7426, cannot
 
 /* QUESTION 15 */
 local explain = "exper exper2 manuf iyear1 iyear2 iyear3 iyear4 iyear5 iyear6 iyear7"
@@ -107,8 +122,10 @@ bysort id: egen m_`var' = mean(`var') if reReg
 
 }
 
-xtreg lWage `Covariates' i.year, re vce(cluster id)
+xtreg lWage `Covariates' m_* i.year, re vce(cluster id)
 estimates store Mundlak
+
+* Answer: True
 
 /* QUESTION 16 */
 estimates table RE FE Mundlak
