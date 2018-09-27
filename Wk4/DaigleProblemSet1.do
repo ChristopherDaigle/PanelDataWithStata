@@ -122,7 +122,7 @@ bysort id: egen m_`var' = mean(`var') if reReg
 
 }
 
-xtreg lWage `Covariates' m_* i.year, re vce(cluster id)
+reg lWage `Covariates' i.year m_* , cluster(id)
 estimates store Mundlak
 
 * Answer: True
