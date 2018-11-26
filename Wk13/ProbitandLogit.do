@@ -54,3 +54,14 @@ dis `f'*_b[tickets]
 * Marginal effect of traffic at the mean
 dis `f'*_b[traffic]
 *dis f*_b[traffic]
+
+* Marginal effect at the mean: automatic command
+margins, dydx(traffic tickets) atmeans
+
+* Marginal effect at the mean for Male: manual command
+
+local xb0 = _b[_cons] + _b[tickets] * R[2,1] + _b[traffic] * R[3,1]
+display normal(`xb0' + _b[1.male]) - normal(`xb0')
+
+///Homework: compute manually and automatically the above marginal effects of logit
+/// model
