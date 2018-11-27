@@ -36,7 +36,7 @@ bysort id: replace y = $rho * y[_n-1] + alpha + eps if time > 1
 
 // Estimate the model by 
 *1) Pooled OLS estimator 
-qui reg y L.y, r
+qui reg y L.y, cluster(id) r
 estimates store POLS 
 
 *2) Fixed effect
@@ -51,7 +51,7 @@ estimates store FD_OLS
 qui ivreg D.y (DL.y = L2.y), nocons cluster(id)
 estimates store AH
 *4) Areallano Bond Methods (Two-step GMM methods)
-qui xtabond y, nocons robust
+qui xtabond y, nocons two r
 estimates store AB 
 
 *  Display coefficients and standard errors to 4 decimal places
@@ -63,18 +63,42 @@ estimates table POLS FE FD_OLS AH AB, b(%7.4f) keep(L.y DL.y) se
     Variable |  POLS       FE      FD_OLS      AH        AB     
 -------------+--------------------------------------------------
            y |
-         L1. |  0.9144    0.2393                        0.4838  
-             |  0.0125    0.0205                        0.1135  
+         L1. |  0.9144    0.2393                        0.4780  
+             |  0.0130    0.0205                        0.1248  
          LD. |                     -0.1649    0.4859            
              |                      0.0208    0.1441            
 ----------------------------------------------------------------
                                                     legend: b/se
-
 */
 
 /* Question 2 */
-* Answer: AH, AB
+/* Based on the numerical results of question 1, we can conclude the following
+theoretical results of the following dynamic panel models: When large N and
+small T, _____ methods yield consistent estimators of rho-hat. */
+* Answer: Anderson-Hsiao(AH) and Areallano-Bond(AB)
 
+/* Question 3 */
+/* Based on the numerical results of question 1, we can conclude the following
+theoretical results of the following dynamic panel models: The Arellano-Bond
+method is [more/less] efficient than AH method because it uses all available lag
+instruments. */
+* Answer: More
+
+
+/* Question 4 */
+/*
+Repeat the simulation work in Question 1 with T = 20. Fill out the tables below. 
+----------------------------------------------------------------
+    Variable |  POLS       FE      FD_OLS      AH        AB     
+-------------+--------------------------------------------------
+           y |
+         L1. |  0.8850    0.4253                        0.4959  
+             |  0.0070    0.0095                        0.0174  
+         LD. |                     -0.2305    0.4994            
+             |                      0.0083    0.0235            
+----------------------------------------------------------------
+                                                    legend: b/se
+*/
 clear all
 cls
 set seed 333
@@ -107,40 +131,29 @@ bysort id: replace y = $rho * y[_n-1] + alpha + eps if time > 1
 
 // Estimate the model by 
 *1) Pooled OLS estimator 
-qui reg y L.y, r
+qui reg y L.y, cluster(id) r
 estimates store POLS 
 *2) Fixed effect
 qui xtreg y L.y, fe cluster(id)
 estimates store FE
 *3) First difference: OLS for the differenced model 
-qui reg D.(y L.y), cluster(id) 
+qui reg D.(y L.y), cluster(id)
 estimates store FD_OLS 
 *4) First difference with IV methods (Andreson-Hsiao Estimtes with IV y_(t-2) 
 qui ivreg D.y (DL.y = L2.y), nocons cluster(id)
 estimates store AH
 *4) Areallano Bond Methods (Two-step GMM methods)
-qui xtabond y, nocons robust
+qui xtabond y, nocons two r
 estimates store AB
 
 *  Display coefficients and standard errors to 4 decimal places
 estimates table POLS FE FD_OLS AH AB, b(%7.4f) keep(L.y DL.y) se
 
-/* Question 3 */
-* Answer: More
-
-/* Question 4 */
-/*
-----------------------------------------------------------------
-    Variable |  POLS       FE      FD_OLS      AH        AB     
--------------+--------------------------------------------------
-           y |
-         L1. |  0.8850    0.4253                        0.4848  
-             |  0.0051    0.0095                        0.0154  
-         LD. |                     -0.2305    0.4994            
-             |                      0.0083    0.0235            
-----------------------------------------------------------------
-                                                    legend: b/se
-*/
 
 /* Question 5 */
+/* Based on the numerical results of question 1, we can conclude the following
+theoretical results of the following dynamic panel models: When the number of
+time period  T increases, _____________ method also yields consistent estimators
+of  rho with hat on top, which is different from its inconsistency with small T
+period. */
 * Answer: Fixed Effect
