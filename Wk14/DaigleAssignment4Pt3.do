@@ -19,9 +19,9 @@ reg docvis private chronic female age income, r
 replace age2 = age * age
 reg docvis private chronic female age age2 income, r
 margins, dydx(age age2)
+dis  -.0839313 + 0.0012516
 dis 2*0.0012516
-/* dis -.0839313 +  0.0025032*x ???*/
-/* -0.0827, less */
+/* -0.0827, 0.0025 */
 
 /* Question 16 */
 margins, at(age = (30 60) age2 = (900 3600))

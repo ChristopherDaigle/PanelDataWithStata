@@ -12,11 +12,11 @@ use nqual.dta
 /* Question 1 */
 xtset id t
 xtabond nqual aide, nocons two r
-/* Number of Lag Instruments: 6 */
+/* 6 */
 
 /* Question 2 */
-/* .898422   .0046258
-  .1104722   .0151279 */
+/* 0.8984, 0.0046
+  0.1105, 0.0151 */
 
 /* Question 3 */
 ivreg D.(nqual aide) (DL.nqual = L2.nqual), nocons cluster(id)
